@@ -24,7 +24,7 @@ const EscolheCao = (props) => {
     )
 
     return (
-        <select className="form-select" onChange={props.outIdCaoEscolhido}>
+        <select required className="form-select" onChange={props.outIdCaoEscolhido}>
             <option value="">Escolha um cão</option>
             {opcoes}
         </select>
