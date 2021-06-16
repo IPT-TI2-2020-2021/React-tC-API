@@ -55,16 +55,20 @@ async function getCaes() {
  * invoca a API e envia os dados da nova Fotografia
  * @param {*} dadosNovaFotografia 
  */
-async function adicionaFoto(dadosNovaFotografia) {
+ async function adicionaFoto(dadosNovaFotografia) {
+  // https://developer.mozilla.org/pt-BR/docs/Web/API/FormData
+  // https://developer.mozilla.org/en-US/docs/Web/API/FormData/Using_FormData_Objects
+  let formData = new FormData();
+  formData.append("UploadFotografia", dadosNovaFotografia.UploadFotografia);
+  formData.append("DataFoto", dadosNovaFotografia.DataFoto);
+  formData.append("Local", dadosNovaFotografia.Local);
+  formData.append("CaoFK", dadosNovaFotografia.CaoFK);
 
-  // fazer o acesso a um 'endpoint', com os dados das Fotos
-  let resposta = await fetch("api/FotografiasAPI/",
-    {
-      method: "POST",
-      body: JSON.stringify(dadosNovaFotografia),
-      headers: { "Content-Type": "application/json" }
-    }
-  );
+  let resposta = await fetch("api/FotografiasAPI", {
+    method: "POST",
+    body: formData
+  });
+
 
   if (!resposta.ok) {
     // não obtivemos o 'código de erro' HTTP 200
