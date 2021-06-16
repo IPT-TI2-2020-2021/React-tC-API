@@ -57,7 +57,7 @@ const CorpoTabela = (props) => {
 class Tabela5 extends React.Component {
 
     render() {
-        // ler os dados que foram/são fornecidos à Tabela4,
+        // ler os dados que foram/são fornecidos à Tabela5,
         // como parâmetro de entrada/saída
         const { inDadosFotos } = this.props;
 
