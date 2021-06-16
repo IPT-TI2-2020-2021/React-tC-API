@@ -16,6 +16,7 @@ const EscolheCao = (props) => {
     const opcoes = props.inListaCaes.map((cao) => {
         return (
             <option key={cao.idCao}
+                required
                 value={cao.idCao}>{cao.nomeCao}
             </option>
         );
@@ -23,9 +24,8 @@ const EscolheCao = (props) => {
     )
 
     return (
-        <select className="form-select"
-            onChange={props.outIdCaoEscolhido}
-        >
+        <select className="form-select" onChange={props.outIdCaoEscolhido}>
+            <option value="">Escolha um cão</option>
             {opcoes}
         </select>
     );
@@ -82,7 +82,7 @@ class Formulario extends React.Component {
      * @param {*} evento - dados adicionados pelo utilizador
      */
     handlerDataChange = (evento) => {
-        // guardar os dados recolhidos pelo <select></select>
+        // guardar os dados recolhidos sobre a data da Foto
         this.setState({
             dataDaFoto: evento.target.value
         });
@@ -94,7 +94,15 @@ class Formulario extends React.Component {
      * @param {*} evento - dados adicionados pelo utilizador
      */
     handlerLocalChange = (evento) => {
-        // guardar os dados recolhidos pelo <select></select>
+        // validar os valores introduzidos na TextBox
+        if (/\d/.test(evento.target.value)) {
+            evento.target.setCustomValidity("Não são permitidos números aqui.");
+            return;
+        } else {
+            evento.target.setCustomValidity("");
+        }
+
+        // guardar os dados recolhidos
         this.setState({
             localDaFoto: evento.target.value
         });
@@ -134,16 +142,21 @@ class Formulario extends React.Component {
                     <div className="col-md-4">
                         Fotografia: <input
                             type="file"
+                            required
+                            accept=".jpg,.png"
                             onChange={this.handlerFotoChange}
                             className="form-control" /><br />
                         Data da Foto: <input
                             type="date"
+                            required
+                            max={new Date().toISOString().split("T")[0]}
                             onChange={this.handlerDataChange}
                             className="form-control" /><br />
                     </div>
                     <div className="col-md-4">
                         Local da Foto: <input
                             type="text"
+                            required
                             onChange={this.handlerLocalChange}
                             className="form-control" /><br />
                         Cão: <EscolheCao inListaCaes={inDadosCaes}
